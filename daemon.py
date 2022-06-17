@@ -9,7 +9,7 @@ import json
 import os
 from tempmonitor import TempMonitor
 
-base = os.path.expanduser('~') + '/.tempmonitor/'
+base = os.path.expanduser('~') + '/.guiltyspark/'
 #create dir if it doesn't exist
 if not os.path.exists(base):
     os.mkdir(base)
