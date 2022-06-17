@@ -7,37 +7,29 @@ This is the daemon that runs in the background pulling sensor temp info and savi
 import subprocess
 import json
 import os
+from tempmonitor import TempMonitor
 
-cmd = ['sensors', '-j']
-
-warning_threshold = 75
-critical_threshold = 85
-
-def get_temps():
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-    output, error = process.communicate()
-    body = json.loads(output)
-    return body['k10temp-pci-00c3']['Tctl']['temp1_input']
-
+base = os.path.expanduser('~') + '/.tempmonitor/'
 #create dir if it doesn't exist
-if not os.path.exists(os.path.expanduser('~') + '/.tempmonitor/'):
-    os.mkdir(os.path.expanduser('~') + '/.tempmonitor/')
+if not os.path.exists(base):
+    os.mkdir(base)
     
 #clear old files
 try:
-    os.remove(os.path.expanduser('~') + '/.tempmonitor/temp.dat')
+    os.remove(base+'temp.dat')
 except:
-    f = open(os.path.expanduser('~') + '/.tempmonitor/temp.dat', 'w+')
+    f = open(base+'temp.dat', 'w+')
     f.close()
-
 
 import time
 
 #TODO: use notify-send to push a notification to the desktop if temp exceeds threshold
-while True:
-    temp = get_temps()
-    with open(os.path.expanduser('~') + '/.tempmonitor/temp.dat', 'a+') as f:
-        f.write(str(temp))
-        f.write('\n')
-    time.sleep(5)
+monitors = []
+monitors.append(TempMonitor())
 
+while True:
+    for monitor in monitors:
+        with open(base + monitor.name + '.dat', 'a+') as f:
+            f.write(str(monitor.get()))
+            f.write('\n')
+    time.sleep(5)
