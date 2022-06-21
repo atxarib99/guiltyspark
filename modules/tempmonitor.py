@@ -3,7 +3,7 @@ from monitor import Monitor
 import subprocess
 import json
 
-class TempMonitor(Monitor):
+class MonitorImpl(Monitor):
 
     name = 'tempmonitor'
 
