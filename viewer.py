@@ -9,7 +9,7 @@ import sys
 args = sys.argv
 
 def show_temp():
-    with open(os.path.expanduser('~') + '/.tempmonitor/' + str(sys.argv[1]) + '.dat', 'r') as f:
+    with open(os.path.expanduser('~') + '/.guiltyspark/' + str(sys.argv[1]) + '.dat', 'r') as f:
         temps = []
         for line in f.readlines():
             temps.append(float(line))
