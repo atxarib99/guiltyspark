@@ -1,0 +1,25 @@
+#!/usr/bin/python
+
+#get args
+
+#commands
+
+#status
+#-- returns if daemon is running, and some stats, (monitors running, uptime, data storage location)
+
+#list
+#-- returns all monitors running
+
+#register
+#-- adds a file to modules/
+
+#unregister
+#-- removes a file from modules/
+
+#start
+#stop
+#restart
+
+#clear
+
+#backup
