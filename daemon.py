@@ -38,6 +38,11 @@ while True:
         print(monitor.get())
         #continue
         with open(base + monitor.name + '.dat', 'a+') as f:
-            f.write(str(monitor.get()))
+            towrite = ""
+            for item in list(monitor.get()):
+                towrite += str(item)
+                towrite += ','
+            towrite = towrite[0:len(towrite)-1]
+            f.write(towrite)
             f.write('\n')
     time.sleep(5)
