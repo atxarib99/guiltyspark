@@ -47,7 +47,6 @@ def show_temp():
                         data[i].append(float(datapoint[i].strip('%')))
                     except:
                         data[i].append(0)
-        
         #trim data to length specified
         if len(sys.argv) > 2:
             try:
@@ -60,6 +59,8 @@ def show_temp():
         for i in range(len(data)):
             #check if data has 0 spread.
             if hasspread(data[i]):
+                if datanames[i] == 'timestamp':
+                    continue
                 print(datanames[i])
                 print(asciiize(data[i], x_ticks=list(range(1,len(data[0]))), height=rows//len(data)-2, inter_points_margin=2))
             else:
