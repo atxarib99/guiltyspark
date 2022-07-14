@@ -1,25 +1,104 @@
 #!/usr/bin/python
+import sys
+import os
+import subprocess
 
 #get args
-
+args = sys.argv
 #commands
 
-#status
-#-- returns if daemon is running, and some stats, (monitors running, uptime, data storage location)
+def status():
+    cmd = ['ps', '-ef']
 
-#list
-#-- returns all monitors running
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    output, error = process.communicate()
+    output = str(output)
 
-#register
-#-- adds a file to modules/
+    isRunning = False 
+    if 'guiltysparkdaemon' in output:
+        isRunning = True
 
-#unregister
-#-- removes a file from modules/
+    if isRunning:
+        print('guiltyspark daemon is running!')
+    else:
+        print('guiltyspark daemon is NOT running!')
 
-#start
-#stop
-#restart
+    #get uptime
+    #can i create a var in monitor parent class that holds start time? if starttime blank set starttime. will they all have instanced parent classes?
 
-#clear
+    #get monitors running, ehh check installation path
+    base = os.path.expanduser('~') + '/.guiltyspark/'
+    monitorlen = len(os.listdir('./modules'))
+    print(str(monitorlen) + ' monitors found.')
 
-#backup
+    #data storage loc
+    print('Data is being stored to: ' + base)
+
+def getMonitors():
+    print('Monitors found:')
+    for item in os.listdir('./modules'):
+        if item == '__pycache__':
+            continue
+        print('\t- ' + str(item))
+
+def register(file):
+    raise NotImplementedError()
+
+def unregister(file):
+    raise NotImplementedError()
+
+def start():
+    raise NotImplementedError()
+
+def stop():
+    raise NotImplementedError()
+
+def restart():
+    raise NotImplementedError()
+
+def clear():
+    raise NotImplementedError()
+
+def export():
+    raise NotImplementedError()
+
+def main():
+    #status
+    #-- returns if daemon is running, and some stats, (monitors running, uptime, data storage location)
+    if args[1] == 'status':
+        status()
+
+
+    #list
+    #-- returns all monitors running
+    if args[1] == 'list':
+        getMonitors()
+
+    #register
+    #-- adds a file to modules/
+    if args[1] == 'register' and len(args) > 2:
+        register(args[2])
+    #unregister
+    #-- removes a file from modules/
+    if args[1] == 'unregister' and len(args) > 2:
+        unregister(args[2])
+    #start
+
+    if args[1] == 'start':
+        start()
+    #stop
+    if args[1] == 'stop':
+        stop()
+    #restart
+    if args[1] == 'restart':
+        restart()
+
+    #clear
+    if args[1] == 'clear':
+        clear()
+
+    #backup/export
+    if args[1] == 'backup' or args[1] == 'export':
+        export()
+
+main()
