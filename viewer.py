@@ -1,3 +1,4 @@
+#!/usr/bin/python
 '''
 This file serves as the communicator to the recent 30 temps. It will show them using asciiplot to the user. The daemon will need not be interrupted for this.
 '''

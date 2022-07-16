@@ -8,6 +8,8 @@ import subprocess
 args = sys.argv
 #commands
 
+installPath = '/usr/local/guiltyspark/'
+
 def status():
     cmd = ['ps', '-ef']
 
@@ -29,7 +31,7 @@ def status():
 
     #get monitors running, ehh check installation path
     base = os.path.expanduser('~') + '/.guiltyspark/'
-    monitorlen = len(os.listdir('./modules'))
+    monitorlen = len(os.listdir(installPath + 'modules/'))
     print(str(monitorlen) + ' monitors found.')
 
     #data storage loc
@@ -37,7 +39,7 @@ def status():
 
 def getMonitors():
     print('Monitors found:')
-    for item in os.listdir('./modules'):
+    for item in os.listdir(installPath + 'modules/'):
         if item == '__pycache__':
             continue
         print('\t- ' + str(item))
@@ -46,7 +48,7 @@ def register(filename, filepath):
     if '.py' not in filename:
         filename = filename + '.py'
     try:
-        shutil.copyfile(filepath, 'modules/'+filename)
+        shutil.copyfile(filepath, installPath+'modules/'+filename)
     except IOError:
         print('Couldnt write the file here')
     except FileNotFoundError:
@@ -56,16 +58,16 @@ def unregister(file):
     if '.py' not in file:
         file = file + '.py'
     try:
-        os.remove('modules/' + file)
+        os.remove(installPath+'modules/' + file)
     except:
         print('Couldnt unregister file:' + file)
 
 def start():
-    subprocess.Popen(['python', 'guiltyspark_daemon.py'], stdout=subprocess.PIPE)
+    subprocess.Popen(['python', installPath+'guiltyspark_daemon.py'], stdout=subprocess.PIPE)
     print('started guiltyspark!')
 
 def stop():
-    process = subprocess.Popen(['pidof', 'python', 'guiltyspark_daemon.py'], stdout=subprocess.PIPE)
+    process = subprocess.Popen(['pidof', 'python', installPath+'guiltyspark_daemon.py'], stdout=subprocess.PIPE)
     output, error = process.communicate()
     output = str(output)
     pid = output.strip('b')
@@ -96,6 +98,9 @@ def clear():
 
 def export():
     raise NotImplementedError()
+
+def view(monitor_name):
+    subprocess.Popen(['python', installPath+'viewer.py', monitor_name])
 
 def main():
     #status
@@ -135,5 +140,8 @@ def main():
     #backup/export
     if args[1] == 'backup' or args[1] == 'export':
         export()
+
+    if args[1] == 'view' and len(args) > 2:
+        view(args[2])
 
 main()
