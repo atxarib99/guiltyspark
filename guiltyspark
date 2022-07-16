@@ -62,6 +62,7 @@ def unregister(file):
 
 def start():
     subprocess.Popen(['python', 'guiltyspark_daemon.py'], stdout=subprocess.PIPE)
+    print('started guiltyspark!')
 
 def stop():
     process = subprocess.Popen(['pidof', 'python', 'guiltyspark_daemon.py'], stdout=subprocess.PIPE)
@@ -73,12 +74,25 @@ def stop():
     pid = pid.split(' ')[1]
 
     subprocess.Popen(['kill', '-9', pid])
+    print('stopped guiltyspark!')
 
 def restart():
-    raise NotImplementedError()
+    import time
+    print('stopping guiltyspark')
+    stop()
+    time.sleep(3)
+    print('starting guiltyspark')
+    start()
 
 def clear():
-    raise NotImplementedError()
+    base = os.path.expanduser('~') + '/.guiltyspark/'
+    for item in os.listdir(base):
+        try:
+            os.remove(base+item)
+            print('cleared ' + str(item))
+        except:
+            print('Trouble while clearing old data')
+    print('finished cleanup!')
 
 def export():
     raise NotImplementedError()
