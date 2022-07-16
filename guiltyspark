@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import sys
 import os
+import shutil
 import subprocess
 
 #get args
@@ -41,17 +42,37 @@ def getMonitors():
             continue
         print('\t- ' + str(item))
 
-def register(file):
-    raise NotImplementedError()
+def register(filename, filepath): 
+    if '.py' not in filename:
+        filename = filename + '.py'
+    try:
+        shutil.copyfile(filepath, 'modules/'+filename)
+    except IOError:
+        print('Couldnt write the file here')
+    except FileNotFoundError:
+        print('Couldnt find file to register. Please use full path')
 
 def unregister(file):
-    raise NotImplementedError()
+    if '.py' not in file:
+        file = file + '.py'
+    try:
+        os.remove('modules/' + file)
+    except:
+        print('Couldnt unregister file:' + file)
 
 def start():
-    raise NotImplementedError()
+    subprocess.Popen(['python', 'guiltyspark_daemon.py'], stdout=subprocess.PIPE)
 
 def stop():
-    raise NotImplementedError()
+    process = subprocess.Popen(['pidof', 'python', 'guiltyspark_daemon.py'], stdout=subprocess.PIPE)
+    output, error = process.communicate()
+    output = str(output)
+    pid = output.strip('b')
+    pid = pid.strip("'")
+    pid = pid.strip('\\n')
+    pid = pid.split(' ')[1]
+
+    subprocess.Popen(['kill', '-9', pid])
 
 def restart():
     raise NotImplementedError()
@@ -76,8 +97,8 @@ def main():
 
     #register
     #-- adds a file to modules/
-    if args[1] == 'register' and len(args) > 2:
-        register(args[2])
+    if args[1] == 'register' and len(args) > 3:
+        register(args[2], args[3])
     #unregister
     #-- removes a file from modules/
     if args[1] == 'unregister' and len(args) > 2:
