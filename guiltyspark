@@ -105,6 +105,9 @@ def view(monitor_name, length=-1):
     else:
         subprocess.Popen(['python', installPath+'viewer.py', monitor_name, length])
 
+def example():
+    shutil.copy(installPath+'examplemonitor.py', os.getcwd())
+
 def main():
     #status
     #-- returns if daemon is running, and some stats, (monitors running, uptime, data storage location)
@@ -149,5 +152,8 @@ def main():
             view(args[2], args[3])
         elif len(args) > 2:
             view(args[2])
+
+    if args[1] == 'example':
+        example()
 
 main()
