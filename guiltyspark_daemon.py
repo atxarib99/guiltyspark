@@ -32,7 +32,6 @@ while True:
             monitors.append(importlib.import_module('modules.' + item[0:-3], item[0:-3]).MonitorImpl())
 
     for monitor in monitors:
-        print(monitor.get())
         #continue
         with open(base + monitor.name + '.dat', 'a+') as f:
             towrite = ""
