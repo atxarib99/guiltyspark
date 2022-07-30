@@ -32,7 +32,7 @@ def status():
     #get monitors running, ehh check installation path
     base = os.path.expanduser('~') + '/.guiltyspark/'
     monitorlen = len(os.listdir(installPath + 'modules/'))
-    print(str(monitorlen) + ' monitors found.')
+    print(str(monitorlen-1) + ' monitors found.')
 
     #data storage loc
     print('Data is being stored to: ' + base)
