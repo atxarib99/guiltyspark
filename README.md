@@ -17,10 +17,6 @@ pip install python-daemon
 pip install asciiplot
 ```
 
-# Note
-
-Currently the application is just hard coded to listen to my computers cpu temp values. I am still building it out.
-
 # Usage
 
 A primary usage I want to use this for is logging parameters on my RaspberryPi such as CPU temp, CPU Throttling, etc. Once I get a database instacne running on it, I will register another monitor(s) to log some of those items.
