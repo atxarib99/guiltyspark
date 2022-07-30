@@ -2,6 +2,21 @@
 
 GuiltySpark is a simple daemon that allows applications to register themselves. The application will be a child instance of an abstract class that defines a simple get() method. This method returns either a value or list of values which the daemon then logs. GuiltySpark also implements asciiplot to allow in console viewing of logged data
 
+# Installation
+
+Clone this git repository.
+Navigate to directory.
+```bash
+sudo ./installer.sh
+```
+This will install to /usr/local/guiltyspark/ and the cli will be installed in /usr/local/bin/guiltyspark. Ensure this bin directory is in your path.
+
+You will need these python packages
+```bash
+pip install python-daemon
+pip install asciiplot
+```
+
 # Note
 
 Currently the application is just hard coded to listen to my computers cpu temp values. I am still building it out.
@@ -10,9 +25,50 @@ Currently the application is just hard coded to listen to my computers cpu temp 
 
 A primary usage I want to use this for is logging parameters on my RaspberryPi such as CPU temp, CPU Throttling, etc. Once I get a database instacne running on it, I will register another monitor(s) to log some of those items.
 
-```python
-py viewer.py tempmonitor 30                                                                                                                                                                                             ✔ 
-30
+Start guiltyspark
+```bash
+guiltyspark start
+```
+
+View guiltyspark status
+```bash
+guiltyspark status
+```
+
+View registered monitors
+```bash
+guiltyspark list
+```
+
+Get example monitor copied to current dir
+```bash
+guiltyspark exmaple
+```
+
+Add a new monitor
+```bash
+guiltyspark register $MONITOR_NAME $FILEPATH_TO_MONITOR
+```
+
+Remove a monitor
+```bash
+guiltyspark unregister $MONITOR_NAME
+```
+
+Clear log dir
+```bash
+guiltyspark clear
+```
+
+Stop guiltyspark
+```bash
+guiltyspark stop
+```
+
+View guiltyspark data
+```bash
+guiltyspark view $MONITOR_NAME [$DATA_POINTS]
+
 69.0┤              ╭╮           ╭───╮           ╭───╮              ╭╮
 67.8┤              │╰╮          │   │           │   │              ││
 66.5┤              │ │         ╭╯   ╰╮          │   ╰╮             │╰╮
