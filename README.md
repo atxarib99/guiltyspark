@@ -1,6 +1,6 @@
 # GuiltySpark
 
-GuiltySpark is a simple daemon that allows applications to register themselves. The application will be a child instance of an abstract class that defines a simple get() method. This method returns either a value or list of values which the daemon then logs. GuiltySpark also implements asciiplot to allow in console viewing of logged data
+GuiltySpark is a logging daemon that allows applications to register themselves. The application will be a child instance of an abstract class that defines a simple get() method. This method returns either a value or list of values which the daemon then logs. GuiltySpark also implements asciiplot to allow in console viewing of logged data
 
 # Installation
 
