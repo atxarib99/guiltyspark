@@ -52,19 +52,26 @@ def run():
                 #continue
                 with open(base + monitor.name + '.dat', 'a+') as f:
                     towrite = ""
-                    got = monitor.get()
                     try:
-                        got = list(got)
-                    except TypeError:
-                        got = [got]
-                    for item in list(got):
-                        towrite += str(item)
-                        towrite += ','
-                    towrite = towrite[0:len(towrite)-1]
-                    print(towrite)
-                    f.write(towrite)
-                    f.write('\n')
-            time.sleep(5)
+                        got = monitor.get()
+                        try:
+                            got = list(got)
+                        except TypeError:
+                            got = [got]
+                        for item in list(got):
+                            towrite += str(item)
+                            towrite += ','
+                        towrite = towrite[0:len(towrite)-1]
+                        print(towrite)
+                        f.write(towrite)
+                        f.write('\n')
+                    except Exception as exp:
+                        with open(installPath+'daemon.log', 'a+') as log:
+                            log.write(str(time.time()))
+                            log.write(',')
+                            log.write(monitor.name)
+                            log.write('issue in get()\n')
+                            time.sleep(5)
     except Exception as exp:
         with open(installPath+'daemon.log', 'a+') as log:
             log.write(str(time.time()))
