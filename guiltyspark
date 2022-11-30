@@ -3,6 +3,7 @@ import sys
 import os
 import shutil
 import subprocess
+import json
 
 #get args
 args = sys.argv
@@ -105,6 +106,15 @@ def view(monitor_name, length=-1):
     else:
         subprocess.Popen(['python', installPath+'viewer.py', monitor_name, length])
 
+#stat requires data as json
+def stat(monitor_name):
+    #open datafile
+    base = os.path.expanduser('~') + '/.guiltyspark/'
+    f = open(base+monitor_name+'.dat', 'r')
+    data = json.load(f)
+    print(data)
+        
+
 def example():
     shutil.copy(installPath+'examplemonitor.py', os.getcwd())
 
@@ -152,6 +162,9 @@ def main():
             view(args[2], args[3])
         elif len(args) > 2:
             view(args[2])
+
+    if args[1] == 'stat' and len(args) > 2:
+        stat(args[2])
 
     if args[1] == 'example':
         example()
